@@ -1,0 +1,29 @@
+/* css filters applied on video element */
+.grayscale {
+  -webkit-filter: grayscale(1);
+}
+.sepia {
+  -webkit-filter: sepia(1);
+}
+.blur {
+  -webkit-filter: blur(3px);
+}
+.brightness {
+  -webkit-filter: brightness(4);
+}
+.contrast {
+  -webkit-filter: contrast(4);
+}
+.hue-rotate{
+  -webkit-filter: hue-rotate(150deg);
+}
+.saturate{
+  -webkit-filter: saturate(4);
+}
+.invert{
+  -webkit-filter: invert(1);
+}
+
+video, canvas {
+  border: 1px solid black;
+}​

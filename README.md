@@ -45,3 +45,10 @@ This idea originally came from apples. I was thinking of a simple way to detect 
 
 ## Credits
 * Secret Location, Ryan Andal
+
+
+
+## References
+* [Capturing Audio & Video in HTML5 - getUserMedia() API](http://www.html5rocks.com/en/tutorials/getusermedia/intro/)
+* http://www.8bitrocket.com/2013/01/25/html5-canvas-web-cam-chrome-html5-video-puzzle-of-you-demo/
+* http://www.webdesignermag.co.uk/tutorials/capture-webcam-video-with-html5/
