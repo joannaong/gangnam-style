@@ -1,10 +1,13 @@
 var Site = {
 
   // GLOBAL VARS
-  videoElement: document.querySelector('video'),
-  canvasCopyElement: document.getElementById("canvas-copy"),
-  canvasShotElement: document.getElementById("canvas-shot"),
+  videoElement: $('#slowmo-video')[0],
+  webcamElement: $('#webcam-container')[0],
+  canvasCopyElement: $("#canvas-copy")[0],
+  contextCopy: $("#canvas-copy")[0].getContext('2d'),
+  //canvasShotElement: document.getElementById("canvas-shot"),
   filters: ['grayscale', 'sepia', 'blur', 'brightness', 'contrast', 'hue-rotate', 'saturate', 'invert', ''],
+  notesPos: [0, 82, 159, 238, 313, 390, 468, 544],
   idx: 0,
   currentPixels: "",
   lastPixels: "",
@@ -41,7 +44,11 @@ var Site = {
     // $("#take-shot").click(function() {
     //   Site.snapShot();
     // });
-    Site.videoElement.addEventListener('click', Site.changeFilter, false);
+    Site.webcamElement.addEventListener('click', Site.changeFilter, false);
+
+    Site.canvasCopyElement.width = 200;
+    Site.canvasCopyElement.height = 150;
+
   },
 
   //
@@ -54,49 +61,48 @@ var Site = {
 
   // grabbed from https://github.com/wesbos/HTML5-Security-Camera
   comparePixels: function(e) {
-    var ctx = Site.canvasCopyElement.getContext('2d');
 
     setInterval(function(){
-      drawSeveral();
-     
       
+      Site.contextCopy.drawImage(Site.webcamElement, 0, 0, Site.canvasCopyElement.width, Site.canvasCopyElement.height);
+
+      Site.lastPixels     = Site.currentPixels;
+      Site.currentPixels  = Site.contextCopy.getImageData(0, 0, Site.canvasCopyElement.width, Site.canvasCopyElement.height);
+      
+      var same = Site.utils.equal(Site.lastPixels,Site.currentPixels,60),
+          color = (same) ? Site.noMoves() : Site.yayMoves();
+     
       /*if(!same) {
         var img = new Image();
           img.src = Site.canvasCopyElement.toDataURL("image/jpg");
           Site.imageDump.appendChild(img); 
       }*/
       // document.body.style.backgroundColor = color;
-    }, 1000);
 
-    function drawSeveral() {
-      // context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-      ctx.drawImage(Site.videoElement, 0, 0, Site.canvasCopyElement.width, Site.canvasCopyElement.height);
-      Site.lastPixels     = Site.currentPixels;
-      Site.currentPixels  = ctx.getImageData(0, 0, Site.canvasCopyElement.width, Site.canvasCopyElement.height);
-      
-      var same = Site.utils.equal(Site.lastPixels,Site.currentPixels,150),
-          color = (same) ? Site.noMoves() : Site.yayMoves();
-    }
+    }, 33);
 
   },
 
   noMoves: function(e) {
-    document.body.style.backgroundColor = "green";
+    //document.body.style.backgroundColor = "green";
+    Site.videoElement.pause();
   },
 
   yayMoves: function(e) {
-    document.body.style.backgroundColor = "red";
+    //document.body.style.backgroundColor = "red";
+    Site.videoElement.play();
   },
 
+  /*
   snapShot: function(e) {
     var ctx = Site.canvasShotElement.getContext('2d');
 
     // set canvas to be the same dimensions
-    Site.canvasShotElement.width = Site.canvasShotElement.width = Site.videoElement.videoWidth;
-    Site.canvasShotElement.height = Site.videoElement.videoHeight;
+    Site.canvasShotElement.width = Site.canvasShotElement.width = Site.webcamElement.videoWidth;
+    Site.canvasShotElement.height = Site.webcamElement.videoHeight;
 
     // draw snapshot
-    ctx.drawImage(Site.videoElement,0,0);
+    ctx.drawImage(Site.webcamElement,0,0);
 
     //var data = ctx.getImageData(0,0,canvas.width,canvas.height);
     // for(n=0; n<data.width*data.height; n++) {  
@@ -107,6 +113,7 @@ var Site = {
     // } 
     //ctx.putImageData(data,0,0);
   },
+  */
 
   captureWebcam: function(e) {
     if(navigator.webkitGetUserMedia!=null) { 
@@ -116,7 +123,7 @@ var Site = {
       };
       navigator.webkitGetUserMedia(options, 
         function(stream) { 
-          Site.videoElement.src = window.webkitURL.createObjectURL(stream); 
+          Site.webcamElement.src = window.webkitURL.createObjectURL(stream); 
         },
         function(e) { 
           alert("You need to allow webcam access for this page");

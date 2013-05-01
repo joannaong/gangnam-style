@@ -4,7 +4,6 @@ body {
 .w {
 	margin: 0 auto;
 	max-width: 1000px;
-	height: 563px;
 }
 
 /* css filters applied on video element */
@@ -33,6 +32,7 @@ body {
   -webkit-filter: invert(1);
 }
 
-video, canvas {
-  border: 1px solid white;
-}​
+#webcam-container, #canvas-copy {
+  width: 200px;
+  height: 150px;
+}
