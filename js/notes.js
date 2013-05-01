@@ -24,8 +24,6 @@
 		}, webcamError);
 	}
 
-	var notesPos = [0, 82, 159, 238, 313, 390, 468, 544];
-
 	var timeOut, lastImageData;
 	var canvasSource = $("#canvas-source")[0];
 	var canvasBlended = $("#canvas-blended")[0];
@@ -46,15 +44,21 @@
 		myVideo.pause();
 
 		// add notes to the array
-		for (var i=0; i<8; i++) {
+		for (var i=0; i<22; i++) {
 			var note = {
 				note: "note"+i,
 				ready: true,
 				visual: $("#note" + i)[0]
 			};
-			note.area = {x:notesPos[i], y:0, width:note.visual.width, height:100};
+			note.area = {
+				x: $("#note"+i).position().left,
+				y: $("#note"+i).position().top, 
+				width:note.visual.width, 
+				height:note.visual.height
+			};
 			notes.push(note);
 		}
+
 
 		// // add canvas to the array
 		// notes.push({
@@ -140,7 +144,7 @@
 	function checkAreas() {
 		myVideo.pause();
 		// loop over the note areas
-		for (var r=0; r<8; ++r) {
+		for (var r=0; r<22; ++r) {
 			// get the pixels in a note area from the blended image
 			var blendedData = contextBlended.getImageData(notes[r].area.x, notes[r].area.y, notes[r].area.width, notes[r].area.height);
 			var i = 0;

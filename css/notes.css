@@ -45,8 +45,6 @@
   width: 100px;
   height: 100px;
   float: left;
-  background: rgba(0,0,0,.15);
-  color: white;
 }
 #grid div.active {
   background: red;
@@ -57,7 +55,7 @@
 }
 
 #grid img.active {
-  background: red;
+  opacity: 0 !important;
 }
 
 /*
