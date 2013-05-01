@@ -38,9 +38,9 @@ var Site = {
     $("#capture-button").click(function() {
       Site.captureWebcam();
     });
-    $("#take-shot").click(function() {
-      Site.snapShot();
-    });
+    // $("#take-shot").click(function() {
+    //   Site.snapShot();
+    // });
     Site.videoElement.addEventListener('click', Site.changeFilter, false);
   },
 
