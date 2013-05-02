@@ -8,17 +8,21 @@
 	var webcamError = function(e) { alert('Webcam error!', e); };
 	var video = $('#webcam')[0];
 
-	if (navigator.getUserMedia) {
-		navigator.getUserMedia({audio: true, video: true}, function(stream) {
-			video.src = stream;
-			init();
-		}, webcamError);
-	} else if (navigator.webkitGetUserMedia) {
-		navigator.webkitGetUserMedia({audio: true, video: true}, function(stream) {
-			video.src = window.webkitURL.createObjectURL(stream);
-			init();
-		}, webcamError);
-	}
+	$(".title").click(function(){
+		if (navigator.getUserMedia) {
+			navigator.getUserMedia({audio: true, video: true}, function(stream) {
+				video.src = stream;
+				init();
+			}, webcamError);
+		} else if (navigator.webkitGetUserMedia) {
+			navigator.webkitGetUserMedia({audio: true, video: true}, function(stream) {
+				video.src = window.webkitURL.createObjectURL(stream);
+				init();
+			}, webcamError);
+		}
+	});
+
+	
 
 	var timeOut, lastImageData;
 	var canvasSource = $("#canvas-source")[0];
@@ -36,6 +40,8 @@
 	function init() {
 
 		myVideo.pause();
+		$("#my-video").fadeIn();
+		$(".title").fadeOut();
 
 		// add grid to the array
 		for (var i=0; i<80; i++) {
@@ -157,9 +163,9 @@
 
 				
 				if (notes[r].note == "note0") {
-					$("#my-video").addClass("sepia");
+					$("#canvas-source").addClass("sepia");
 				} else if (notes[r].note == "note1") {
-					$("#my-video").removeClass("sepia");
+					$("#canvas-source").removeClass("sepia");
 				}
 
 				myVideo.play();
