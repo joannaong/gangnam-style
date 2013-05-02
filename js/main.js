@@ -1,138 +1,175 @@
-var Site = {
+(function() {
 
-  // GLOBAL VARS
-  videoElement: $('#slowmo-video')[0],
-  webcamElement: $('#webcam-container')[0],
-  canvasCopyElement: $("#canvas-copy")[0],
-  contextCopy: $("#canvas-copy")[0].getContext('2d'),
-  //canvasShotElement: document.getElementById("canvas-shot"),
-  filters: ['grayscale', 'sepia', 'blur', 'brightness', 'contrast', 'hue-rotate', 'saturate', 'invert', ''],
-  notesPos: [0, 82, 159, 238, 313, 390, 468, 544],
-  idx: 0,
-  currentPixels: "",
-  lastPixels: "",
-  //imageDump: document.querySelector('.imageDump'),
-  
-  // grabbed from https://github.com/wesbos/HTML5-Security-Camera
-  utils: {
-    diff: function(array1, array2) {
-      return array1.filter(function(i) {
-        return (array2.indexOf(i) > -1);
-      });
-    },
-    equal: function(a, b, tolerance) {
-      var aData   = a.data,
-          bData   = b.data,
-          length  = aData.length,
-          i;
-      tolerance = tolerance || 0;
-      for (i = length; i--;) if (aData[i] !== bData[i] && Math.abs(aData[i] - bData[i]) > tolerance) return false;
-      return true;
-    }
-  },
+	function hasGetUserMedia() {
+		// Note: Opera builds are unprefixed.
+		return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
+			navigator.mozGetUserMedia || navigator.msGetUserMedia);
+	}
+	var webcamError = function(e) { alert('Webcam error!', e); };
+	var video = $('#webcam')[0];
 
-  // INIT
-  init: function(e) {
-    Site.buildHandlers();
-    Site.comparePixels();
-  },
+	if (navigator.getUserMedia) {
+		navigator.getUserMedia({audio: true, video: true}, function(stream) {
+			video.src = stream;
+			init();
+		}, webcamError);
+	} else if (navigator.webkitGetUserMedia) {
+		navigator.webkitGetUserMedia({audio: true, video: true}, function(stream) {
+			video.src = window.webkitURL.createObjectURL(stream);
+			init();
+		}, webcamError);
+	}
 
-  buildHandlers: function(e) {
-    $("#capture-button").click(function() {
-      Site.captureWebcam();
-    });
-    // $("#take-shot").click(function() {
-    //   Site.snapShot();
-    // });
-    Site.webcamElement.addEventListener('click', Site.changeFilter, false);
+	var timeOut, lastImageData;
+	var canvasSource = $("#canvas-source")[0];
+	var canvasBlended = $("#canvas-blended")[0];
+	var contextSource = canvasSource.getContext('2d');
+	var contextBlended = canvasBlended.getContext('2d');
+	var myVideo = $("#my-video")[0];
+	var notes = [];
 
-    Site.canvasCopyElement.width = 200;
-    Site.canvasCopyElement.height = 150;
+	// mirror video
+	contextSource.translate(canvasSource.width, 0);
+	contextSource.scale(-1, 1);
 
-  },
+	// INIT
+	function init() {
 
-  //
-  changeFilter: function(e) {
-    var el = e.target;
-    el.className = '';
-    var effect = Site.filters[Site.idx++ % Site.filters.length]; // loop through filters.
-    if (effect) { el.classList.add(effect); }
-  },
+		myVideo.pause();
 
-  // grabbed from https://github.com/wesbos/HTML5-Security-Camera
-  comparePixels: function(e) {
+		// add grid to the array
+		for (var i=0; i<80; i++) {
+			var note = {
+				note: "note"+i,
+				ready: true,
+				visual: $("#note" + i)[0]
+			};
+			note.area = {
+				x: $("#note"+i).position().left,
+				y: $("#note"+i).position().top, 
+				width: 100, 
+				height: 100
+			};
+			notes.push(note);
+		}
+		update();
+	}
 
-    setInterval(function(){
-      
-      Site.contextCopy.drawImage(Site.webcamElement, 0, 0, Site.canvasCopyElement.width, Site.canvasCopyElement.height);
+	function update() {
+		drawVideo();
+		blend();
+		checkAreas();
+		// timeOut = setTimeout(update, 1000/60);
+		timeOut = setTimeout(update, 60);
+	}
 
-      Site.lastPixels     = Site.currentPixels;
-      Site.currentPixels  = Site.contextCopy.getImageData(0, 0, Site.canvasCopyElement.width, Site.canvasCopyElement.height);
-      
-      var same = Site.utils.equal(Site.lastPixels,Site.currentPixels,60),
-          color = (same) ? Site.noMoves() : Site.yayMoves();
-     
-      /*if(!same) {
-        var img = new Image();
-          img.src = Site.canvasCopyElement.toDataURL("image/jpg");
-          Site.imageDump.appendChild(img); 
-      }*/
-      // document.body.style.backgroundColor = color;
+	function drawVideo() {
+		contextSource.drawImage(video, 0, 0, video.width, video.height);
+	}
 
-    }, 33);
+	function blend() {
+		var width = canvasSource.width;
+		var height = canvasSource.height;
+		// get webcam image data
+		var sourceData = contextSource.getImageData(0, 0, width, height);
+		// create an image if the previous image doesn’t exist
+		if (!lastImageData) lastImageData = contextSource.getImageData(0, 0, width, height);
+		// create a ImageData instance to receive the blended result
+		var blendedData = contextSource.createImageData(width, height);
+		// blend the 2 images
+		differenceAccuracy(blendedData.data, sourceData.data, lastImageData.data);
+		// draw the result in a canvas
+		contextBlended.putImageData(blendedData, 0, 0);
+		// store the current webcam image
+		lastImageData = sourceData;
+	}
 
-  },
+	function fastAbs(value) {
+		// funky bitwise, equal Math.abs
+		return (value ^ (value >> 31)) - (value >> 31);
+	}
 
-  noMoves: function(e) {
-    //document.body.style.backgroundColor = "green";
-    Site.videoElement.pause();
-  },
+	function threshold(value) {
+		return (value > 0x15) ? 0xFF : 0;
+	}
 
-  yayMoves: function(e) {
-    //document.body.style.backgroundColor = "red";
-    Site.videoElement.play();
-  },
+	function difference(target, data1, data2) {
+		// blend mode difference
+		if (data1.length != data2.length) return null;
+		var i = 0;
+		while (i < (data1.length * 0.25)) {
+			target[4*i] = data1[4*i] == 0 ? 0 : fastAbs(data1[4*i] - data2[4*i]);
+			target[4*i+1] = data1[4*i+1] == 0 ? 0 : fastAbs(data1[4*i+1] - data2[4*i+1]);
+			target[4*i+2] = data1[4*i+2] == 0 ? 0 : fastAbs(data1[4*i+2] - data2[4*i+2]);
+			target[4*i+3] = 0xFF;
+			++i;
+		}
+	}
 
-  /*
-  snapShot: function(e) {
-    var ctx = Site.canvasShotElement.getContext('2d');
+	function differenceAccuracy(target, data1, data2) {
+		if (data1.length != data2.length) return null;
+		var i = 0;
+		while (i < (data1.length * 0.25)) {
+			var average1 = (data1[4*i] + data1[4*i+1] + data1[4*i+2]) / 3;
+			var average2 = (data2[4*i] + data2[4*i+1] + data2[4*i+2]) / 3;
+			var diff = threshold(fastAbs(average1 - average2));
+			target[4*i] = diff;
+			target[4*i+1] = diff;
+			target[4*i+2] = diff;
+			target[4*i+3] = 0xFF;
+			++i;
+		}
+	}
 
-    // set canvas to be the same dimensions
-    Site.canvasShotElement.width = Site.canvasShotElement.width = Site.webcamElement.videoWidth;
-    Site.canvasShotElement.height = Site.webcamElement.videoHeight;
+	function checkAreas() {
+		myVideo.pause();
 
-    // draw snapshot
-    ctx.drawImage(Site.webcamElement,0,0);
+		// loop over the note areas
+		for (var r=0; r<80; ++r) {
+			// get the pixels in a note area from the blended image
+			var blendedData = contextBlended.getImageData(notes[r].area.x, notes[r].area.y, notes[r].area.width, notes[r].area.height);
+			var i = 0;
+			var average = 0;
+			// loop over the pixels
+			while (i < (blendedData.data.length * 0.25)) {
+				// make an average between the color channel
+				average += (blendedData.data[i*4] + blendedData.data[i*4+1] + blendedData.data[i*4+2]) / 3;
+				++i;
+			}
+			// calculate an average between of the color values of the note area
+			average = Math.round(average / (blendedData.data.length * 0.25));
 
-    //var data = ctx.getImageData(0,0,canvas.width,canvas.height);
-    // for(n=0; n<data.width*data.height; n++) {  
-    //   var index = n*4;   
-    //   data.data[index+0] = 255-data.data[index+0];  
-    //   data.data[index+1] = 255-data.data[index+1];  
-    //   data.data[index+2] = 255-data.data[index+2];
-    // } 
-    //ctx.putImageData(data,0,0);
-  },
-  */
 
-  captureWebcam: function(e) {
-    if(navigator.webkitGetUserMedia!=null) { 
-      var options = { 
-        video:true, 
-        audio:true 
-      };
-      navigator.webkitGetUserMedia(options, 
-        function(stream) { 
-          Site.webcamElement.src = window.webkitURL.createObjectURL(stream); 
-        },
-        function(e) { 
-          alert("You need to allow webcam access for this page");
-          console.log("There was a problem with webkitGetUserMedia"); 
-        } 
-      );
-    }
-  }
+			// $("#note"+r).addClass("active");
+			// $("#note"+r).css("opacity","0");
+			$("#note"+r+" span").removeClass("active");
 
-}
+			if (average > 10) {
+				// over a small limit, consider that a movement is detected
+				// play a note and show a visual feedback to the user
+				// playSound(notes[r]);
+				// notes[r].visual.style.display = "block";
+				// $(notes[r].visual).fadeOut();
+				// console.log(notes[r].area);
 
-$(document).ready(function() { Site.init(); });
+				//$("#note"+r).css("opacity","1");
+				$("#note"+r+" span").addClass("active");
+
+				
+				if (notes[r].note == "note0") {
+					$("#my-video").addClass("sepia");
+				} else if (notes[r].note == "note1") {
+					$("#my-video").removeClass("sepia");
+				}
+
+				myVideo.play();
+
+			}
+
+
+		}
+
+	}
+
+
+})();

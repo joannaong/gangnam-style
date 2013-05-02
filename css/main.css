@@ -1,38 +1,126 @@
 body {
+  overflow: hidden;
+  margin: 0; }
 
-}
+#webcam, #canvas-blended {
+  display: none; }
+
 .w {
-	margin: 0 auto;
-	max-width: 1000px;
-}
+  width: 1000px;
+  margin: 0 auto;
+  height: 750px;
+  top: 50%;
+  margin-top: -375px;
+  position: absolute;
+  left: 50%;
+  margin-left: -500px; }
+
+.intro {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+  .intro .left-diag {
+    position: absolute;
+    background: blue;
+    width: 1000px;
+    height: 750px; }
+  .intro .right-diag {
+    position: absolute;
+    background: red;
+    width: 1300px;
+    height: 750px;
+    -webkit-transform: rotate(0);
+    -webkit-transform-origin: 0% 0%; }
+
+#canvas-source {
+  width: 1000px;
+  height: 750px;
+  outline: 10px solid black; }
+
+#my-video {
+  position: absolute;
+  bottom: 20px;
+  right: 20px; }
+
+.pattern-overlay {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQIW2NkQAX/GZH4/4FsRpgAmAOSBBFwDkgAAIKuBATRTAAZAAAAAElFTkSuQmCC) repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+#grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1000px; }
+
+#grid div {
+  width: 100px;
+  height: 100px;
+  float: left; }
+  #grid div span {
+    width: 0;
+    height: 0;
+    border-radius: 0;
+    background: white;
+    display: inline-block;
+    -webkit-transition: width 1s;
+    margin: 0 auto; }
+  #grid div:nth-child(even) span.active {
+    -webkit-animation: colorMeEven 1s ease 0 1 normal; }
+  #grid div:nth-child(odd) span.active {
+    -webkit-animation: colorMeOdd 1s ease 0 1 normal; }
+
+@-webkit-keyframes colorMeEven {
+  from {
+    background: white;
+    width: 0;
+    height: 0;
+    border-radius: 0; }
+
+  to {
+    background: red;
+    width: 80px;
+    height: 80px;
+    border-radius: 80px; } }
+
+@-webkit-keyframes colorMeOdd {
+  from {
+    background: white;
+    width: 0;
+    height: 0;
+    border-radius: 0; }
+
+  to {
+    background: blue;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px; } }
 
 /* css filters applied on video element */
 .grayscale {
-  -webkit-filter: grayscale(1);
-}
-.sepia {
-  -webkit-filter: sepia(1);
-}
-.blur {
-  -webkit-filter: blur(3px);
-}
-.brightness {
-  -webkit-filter: brightness(4);
-}
-.contrast {
-  -webkit-filter: contrast(4);
-}
-.hue-rotate{
-  -webkit-filter: hue-rotate(150deg);
-}
-.saturate{
-  -webkit-filter: saturate(4);
-}
-.invert{
-  -webkit-filter: invert(1);
-}
+  -webkit-filter: grayscale(1); }
 
-#webcam-container, #canvas-copy {
-  width: 200px;
-  height: 150px;
-}
+.sepia {
+  -webkit-filter: sepia(1); }
+
+.blur {
+  -webkit-filter: blur(3px); }
+
+.brightness {
+  -webkit-filter: brightness(4); }
+
+.contrast {
+  -webkit-filter: contrast(4); }
+
+.hue-rotate {
+  -webkit-filter: hue-rotate(150deg); }
+
+.saturate {
+  -webkit-filter: saturate(4); }
+
+.invert {
+  -webkit-filter: invert(1); }
