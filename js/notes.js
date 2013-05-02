@@ -36,14 +36,14 @@
 	var notes = [];
 
 	// mirror video
-	// contextSource.translate(canvasSource.width, 0);
-	// contextSource.scale(-1, 1);
+	contextSource.translate(canvasSource.width, 0);
+	contextSource.scale(-1, 1);
 
 	function init() {
 
 		myVideo.pause();
 
-		// add notes to the array
+		// add grid to the array
 		for (var i=0; i<22; i++) {
 			var note = {
 				note: "note"+i,
@@ -53,26 +53,11 @@
 			note.area = {
 				x: $("#note"+i).position().left,
 				y: $("#note"+i).position().top, 
-				width:note.visual.width, 
-				height:note.visual.height
+				width: 100, 
+				height: 100
 			};
 			notes.push(note);
 		}
-
-
-		// // add canvas to the array
-		// notes.push({
-		// 	note: "canvas",
-		// 	ready: true,
-		// 	visual: $("#canvas-source")[0],
-		// 	area: {
-		// 		x: 0,
-		// 		y: 0,
-		// 		width: 640,
-		// 		height: 480
-		// 	}
-		// });
-
 		update();
 	}
 
@@ -80,7 +65,8 @@
 		drawVideo();
 		blend();
 		checkAreas();
-		timeOut = setTimeout(update, 1000/60);
+		// timeOut = setTimeout(update, 1000/60);
+		timeOut = setTimeout(update, 60);
 	}
 
 	function drawVideo() {
@@ -143,6 +129,7 @@
 
 	function checkAreas() {
 		myVideo.pause();
+
 		// loop over the note areas
 		for (var r=0; r<22; ++r) {
 			// get the pixels in a note area from the blended image
@@ -158,29 +145,36 @@
 			// calculate an average between of the color values of the note area
 			average = Math.round(average / (blendedData.data.length * 0.25));
 
-			console.log(average);
+
+			$("#note"+r).addClass("active");
+			$("#note"+r).css("opacity","0");
+			
+
 			if (average > 10) {
 				// over a small limit, consider that a movement is detected
 				// play a note and show a visual feedback to the user
 				// playSound(notes[r]);
-				notes[r].visual.style.display = "block";
-				$(notes[r].visual).fadeIn();
+				// notes[r].visual.style.display = "block";
+				// $(notes[r].visual).fadeOut();
 				// console.log(notes[r].area);
 
-				$("#grid img").removeClass("active");
-				$("#note"+r).addClass("active");
+				$("#note"+r).css("opacity","1");
 
-				$("#slowmo-video").removeClass("sepia");
+				
 				if (notes[r].note == "note0") {
 					$("#slowmo-video").addClass("sepia");
+				} else if (notes[r].note == "note1") {
+					$("#slowmo-video").removeClass("sepia");
 				}
 
 				myVideo.play();
 
-			} // if
-		} // for
+			}
 
-	} // function checkAreas
+
+		}
+
+	}
 
 
 })();
