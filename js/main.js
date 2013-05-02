@@ -161,11 +161,29 @@
 				//$("#note"+r).css("opacity","1");
 				$("#note"+r+" span").addClass("active");
 
-				
 				if (notes[r].note == "note0") {
 					$("#canvas-source").addClass("sepia");
-				} else if (notes[r].note == "note1") {
+					$("#canvas-source").removeClass("contrast");
+					$("#canvas-source").removeClass("hue-rotate");
+					$("#canvas-source").removeClass("saturate");
+				
+				} else if (notes[r].note == "note20") {
+					$("#canvas-source").addClass("contrast");
 					$("#canvas-source").removeClass("sepia");
+					$("#canvas-source").removeClass("hue-rotate");
+					$("#canvas-source").removeClass("saturate");
+				
+				} else if (notes[r].note == "note40") {
+					$("#canvas-source").addClass("hue-rotate");
+					$("#canvas-source").removeClass("sepia");
+					$("#canvas-source").removeClass("contrast");
+					$("#canvas-source").removeClass("saturate");
+				
+				} else if (notes[r].note == "note60") {
+					$("#canvas-source").addClass("saturate");
+					$("#canvas-source").removeClass("sepia");
+					$("#canvas-source").removeClass("hue-rotate");
+					$("#canvas-source").removeClass("contrast");
 				}
 
 				myVideo.play();
