@@ -49,6 +49,7 @@ This idea originally came from apples. I was thinking of a simple way to detect 
 
 
 ## References
+**Links**
 * [Capturing Audio & Video in HTML5 - getUserMedia() API](http://www.html5rocks.com/en/tutorials/getusermedia/intro/)
 * http://www.8bitrocket.com/2013/01/25/html5-canvas-web-cam-chrome-html5-video-puzzle-of-you-demo/
 * http://www.webdesignermag.co.uk/tutorials/capture-webcam-video-with-html5/
@@ -57,6 +58,13 @@ This idea originally came from apples. I was thinking of a simple way to detect 
 * http://blog.teamtreehouse.com/increase-your-sites-performance-with-hardware-accelerated-css
 * http://www.w3schools.com/tags/ref_canvas.asp
 
+**Canvas methods used (from W3C)**
++ The getImageData() method returns an ImageData object that copies the pixel data for the specified rectangle on a canvas.
++ The drawImage() method draws an image, canvas, or video onto the canvas.
++ The createImageData() method creates a new, blank ImageData object. The new object's pixel values are transparent black by default.
++ The putImageData() method puts the image data (from a specified ImageData object) back onto the canvas.
+
+===========
 
 ## What were you able to accomplish from your original goals?
 * 75% -- Learn as much new CSS3 features as I can (transform, transition, animation, etc.)
@@ -78,8 +86,3 @@ This idea originally came from apples. I was thinking of a simple way to detect 
 * Accessing webcam could be done using HTML and JS!
 * Drawing to canvas is pretty sweet - just because its just another HTML element and you can apply cool CSS tricks with it such as opacity, filters, animations, etc.
 * CSS animations is easy to understand
-
-* The getImageData() method returns an ImageData object that copies the pixel data for the specified rectangle on a canvas.
-* The drawImage() method draws an image, canvas, or video onto the canvas.
-* The createImageData() method creates a new, blank ImageData object. The new object's pixel values are transparent black by default.
-* The putImageData() method puts the image data (from a specified ImageData object) back onto the canvas.
