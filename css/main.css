@@ -161,7 +161,7 @@ body {
   #grid div:nth-child(odd) span.active {
     -webkit-animation: colorMeOdd 1s ease 0 1 normal; }
 
-#note0, #note19, #note20, #note39, #note40, #note59, #note60 {
+#note0, #note20, #note40, #note60 {
   font-size: 17px;
   text-align: center;
   color: #000;
