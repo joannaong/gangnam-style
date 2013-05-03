@@ -78,3 +78,8 @@ This idea originally came from apples. I was thinking of a simple way to detect 
 * Accessing webcam could be done using HTML and JS!
 * Drawing to canvas is pretty sweet - just because its just another HTML element and you can apply cool CSS tricks with it such as opacity, filters, animations, etc.
 * CSS animations is easy to understand
+
+-- The getImageData() method returns an ImageData object that copies the pixel data for the specified rectangle on a canvas.
+-- The drawImage() method draws an image, canvas, or video onto the canvas.
+-- The createImageData() method creates a new, blank ImageData object. The new object's pixel values are transparent black by default.
+-- The putImageData() method puts the image data (from a specified ImageData object) back onto the canvas.
