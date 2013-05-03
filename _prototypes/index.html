@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+  <title>WebCam Access</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <div class="w">
+
+    <!-- vid -->
+    <video id="slowmo-video" controls="" name="media" width="600">
+      <source src="assets/gangnam.mp4" type="video/mp4">
+    </video>
+
+    <!-- webcam -->
+    <h2>Webcam to Canvas</h2>
+    <button id="capture-button">Capture video</button><br>
+    <!-- <button id="take-shot">Take Shot</button></p> -->
+
+    <video id="webcam-container" autoplay></video><br>
+    <canvas id='canvas-copy' width='300' height='250'></canvas>
+    <!-- <canvas id='canvas-shot' width='300' height='250'></canvas> -->
+
+  </div>
+  
+
+  <!-- <div class="imageDump"></div> -->
+
+  <!-- JS includes -->
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+<title>WebCam Access</title>
+</head>
+
+<body>
+<video autoplay></video> 
+
+<form><input type='button' id='capture' value="Smile!"/></form> 
+
+<canvas id='canvas' width='300' height='250'></canvas>
+
+<script language='javascript'> 
+document.getElementById('capture').onclick = function() { 
+    var video = document.querySelector('video'); 
+    var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d'); 
+	ctx.drawImage(video,0,0,300,250);
+	
+	var data = ctx.getImageData(0,0,canvas.width,canvas.height);   
+} 
+</script>  
+ 
+<script src="webcam.js"></script>
+</body>
+</html>
