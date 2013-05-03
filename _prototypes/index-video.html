@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+  <title>WebCam Access</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <!-- video -->
+  <div class="canvas-fancy">
+    <h2>Video to Canvas</h2>
+    <video poster="http://www.html5rocks.com/en/tutorials/video/basics/star.png" id="video-canvas-fancy" controls>
+      <source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+      <source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.webm" type='video/webm; codecs="vp8, vorbis"' />
+      <source src="http://www.html5rocks.com/en/tutorials/video/basics/Chrome_ImF.ogv" type='video/ogg; codecs="theora, vorbis"' />
+    </video>
+    <canvas id="canvas-copy-fancy"></canvas>
+    <canvas id="canvas-draw-fancy"></canvas>
+  </div>
+
+  <!-- JS includes -->
+  <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+  <script src="js/main-video.js"></script>
+
+</body>
+</html>
