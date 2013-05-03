@@ -1,3 +1,0 @@
-if(navigator.webkitGetUserMedia!=null) { 
-		
-}
