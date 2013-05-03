@@ -1,3 +1,5 @@
+// forked from http://www.adobe.com/devnet/html5/articles/javascript-motion-detection.html
+
 (function() {
 
 	function hasGetUserMedia() {
@@ -151,30 +153,20 @@
 
 				if (notes[r].note == "note0") {
 					$("#canvas-source").addClass("sepia");
-					$("#canvas-source").removeClass("contrast hue-rotate saturate blur greyscale saturate");
-
-				} else if (notes[r].note == "note19") {
-					$("#canvas-source").addClass("blur");
-					$("#canvas-source").removeClass("contrast sepia hue-rotate saturate greyscale saturate");
+					$("#canvas-source").removeClass("contrast hue-rotate saturate");
 				
 				} else if (notes[r].note == "note20") {
 					$("#canvas-source").addClass("contrast");
-					$("#canvas-source").removeClass("sepia hue-rotate saturate blur greyscale saturate");
-				
-				} else if (notes[r].note == "note39") {
-					$("#canvas-source").addClass("greyscale");
-					$("#canvas-source").removeClass("contrast sepia hue-rotate saturate blur saturate");
+					$("#canvas-source").removeClass("sepia hue-rotate saturate");
+		
 				
 				} else if (notes[r].note == "note40") {
 					$("#canvas-source").addClass("hue-rotate");
-					$("#canvas-source").removeClass("sepia contrast saturate blur greyscale saturate");
-				
-				} else if (notes[r].note == "note59") {
-					$("#canvas-source").addClass("saturate");
-					$("#canvas-source").removeClass("sepia hue-rotate contrast saturate blur greyscale");
+					$("#canvas-source").removeClass("sepia contrast saturate");
+
 				
 				} else if (notes[r].note == "note60") {
-					$("#canvas-source").removeClass("sepia hue-rotate contrast blur greyscale saturate");
+					$("#canvas-source").removeClass("sepia hue-rotate contrast");
 				}
 
 				myVideo.play();

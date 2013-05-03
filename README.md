@@ -52,3 +52,29 @@ This idea originally came from apples. I was thinking of a simple way to detect 
 * [Capturing Audio & Video in HTML5 - getUserMedia() API](http://www.html5rocks.com/en/tutorials/getusermedia/intro/)
 * http://www.8bitrocket.com/2013/01/25/html5-canvas-web-cam-chrome-html5-video-puzzle-of-you-demo/
 * http://www.webdesignermag.co.uk/tutorials/capture-webcam-video-with-html5/
+* http://www.soundstep.com/blog/2012/03/22/javascript-motion-detection/
+* http://www.adobe.com/devnet/html5/articles/javascript-motion-detection.html
+* http://blog.teamtreehouse.com/increase-your-sites-performance-with-hardware-accelerated-css
+* http://www.w3schools.com/tags/ref_canvas.asp
+
+
+## What were you able to accomplish from your original goals?
+* 75% -- Learn as much new CSS3 features as I can (transform, transition, animation, etc.)
+* 75% -- Learn CSS3's limitations and capabilities
+* YAY! -- Take advantage of GPU acceleration with CSS3 hacks
+* YAY, in terms of drawing from video -- Get to know Canvas and some of the things it can do
+* YUP! -- Lean more about HTML5 videos
+* YUP! -- Be more familiar with Github
+* TODO! -- Share final product and do a post about it
+* YAY! -- Relax and have fun. :)
+
+
+## What did you learn?
+* getUserMedia - accessing webcam using HTML
+* HTML to canvas
+
+
+## How could we use this learning on projects moving forward?
+* Accessing webcam could be done using HTML and JS!
+* Drawing to canvas is pretty sweet - just because its just another HTML element and you can apply cool CSS tricks with it such as opacity, filters, animations, etc.
+* CSS animations is easy to understand
