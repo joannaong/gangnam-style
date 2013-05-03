@@ -22,8 +22,6 @@
 		}
 	});
 
-	
-
 	var timeOut, lastImageData;
 	var canvasSource = $("#canvas-source")[0];
 	var canvasBlended = $("#canvas-blended")[0];
@@ -145,45 +143,38 @@
 			// calculate an average between of the color values of the note area
 			average = Math.round(average / (blendedData.data.length * 0.25));
 
-
-			// $("#note"+r).addClass("active");
-			// $("#note"+r).css("opacity","0");
 			$("#note"+r+" span").removeClass("active");
 
 			if (average > 10) {
-				// over a small limit, consider that a movement is detected
-				// play a note and show a visual feedback to the user
-				// playSound(notes[r]);
-				// notes[r].visual.style.display = "block";
-				// $(notes[r].visual).fadeOut();
-				// console.log(notes[r].area);
 
-				//$("#note"+r).css("opacity","1");
 				$("#note"+r+" span").addClass("active");
 
 				if (notes[r].note == "note0") {
 					$("#canvas-source").addClass("sepia");
-					$("#canvas-source").removeClass("contrast");
-					$("#canvas-source").removeClass("hue-rotate");
-					$("#canvas-source").removeClass("saturate");
+					$("#canvas-source").removeClass("contrast hue-rotate saturate blur greyscale saturate");
+
+				} else if (notes[r].note == "note19") {
+					$("#canvas-source").addClass("blur");
+					$("#canvas-source").removeClass("contrast sepia hue-rotate saturate greyscale saturate");
 				
 				} else if (notes[r].note == "note20") {
 					$("#canvas-source").addClass("contrast");
-					$("#canvas-source").removeClass("sepia");
-					$("#canvas-source").removeClass("hue-rotate");
-					$("#canvas-source").removeClass("saturate");
+					$("#canvas-source").removeClass("sepia hue-rotate saturate blur greyscale saturate");
+				
+				} else if (notes[r].note == "note39") {
+					$("#canvas-source").addClass("greyscale");
+					$("#canvas-source").removeClass("contrast sepia hue-rotate saturate blur saturate");
 				
 				} else if (notes[r].note == "note40") {
 					$("#canvas-source").addClass("hue-rotate");
-					$("#canvas-source").removeClass("sepia");
-					$("#canvas-source").removeClass("contrast");
-					$("#canvas-source").removeClass("saturate");
+					$("#canvas-source").removeClass("sepia contrast saturate blur greyscale saturate");
+				
+				} else if (notes[r].note == "note59") {
+					$("#canvas-source").addClass("saturate");
+					$("#canvas-source").removeClass("sepia hue-rotate contrast saturate blur greyscale");
 				
 				} else if (notes[r].note == "note60") {
-					$("#canvas-source").addClass("saturate");
-					$("#canvas-source").removeClass("sepia");
-					$("#canvas-source").removeClass("hue-rotate");
-					$("#canvas-source").removeClass("contrast");
+					$("#canvas-source").removeClass("sepia hue-rotate contrast blur greyscale saturate");
 				}
 
 				myVideo.play();

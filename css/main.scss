@@ -22,7 +22,7 @@ body {
   position: absolute;
   left: 50%;
   margin-left: -500px;
-  // overflow: hidden;
+  overflow: hidden;
 }
 
 .title {
@@ -36,21 +36,24 @@ body {
   padding-top: 80px;
   left: 0;
   text-align: center;
-  &:hover {
-    background: url(../assets/bg.jpg) 0 0;
-  }
+  background: url(../assets/bg.jpg) 0 0;
   h1 {
     position: absolute;
-    top: 400px;
-    left: 250px;
+    top: 40px;
+    left: 320px;
     font-family: 'Londrina Shadow', cursive;
     text-transform: uppercase;
     line-height: 0.8;
     -webkit-animation: scaleMe 1s ease 0 1 normal;
     -webkit-animation-fill-mode: forwards;
+    color: #424242;
   }
   img {
     -webkit-animation: rotateMe 1s ease 0 1 normal;
+    &:hover {
+      display: none;
+      -webkit-animation: rotateMe 1s ease 0 1 normal;
+    }
   }
 }
 
@@ -68,7 +71,7 @@ body {
     font-size: 10px;
   }
   100%   {
-    font-size: 140px;
+    font-size: 43px;
   }
 }
 
@@ -102,9 +105,9 @@ body {
 
 #my-video {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  opacity: 0.7;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
 }
 
 .pattern-overlay {
@@ -145,6 +148,16 @@ body {
   }
 }
 
+#note0, #note19, #note20, #note39, #note40, #note59, #note60 {
+  font-size: 17px;
+  text-align: center;
+  color: #000;
+  padding-top: 35px;
+  background: white;
+  font-family: Helvetica;
+  text-transform: uppercase;
+}
+
 @-webkit-keyframes colorMeEven {
   from { background: white; width: 0; height: 0; border-radius: 0;}
   to   { background: grey; width: 80px; height: 80px; border-radius: 80px; }
@@ -152,11 +165,6 @@ body {
 @-webkit-keyframes colorMeOdd {
   from { background: white; width: 0; height: 0; border-radius: 0;}
   to   { background: black; width: 50px; height: 50px; border-radius: 50px; }
-}
-
-#grid div.active {
-  // background: white;
-  // -webkit-transform: rotate(60deg);
 }
 
 /* css filters applied on video element */
