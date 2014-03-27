@@ -1,6 +1,7 @@
-# APPLES
+# Gangname Style
 
-
+## Demo
+http://joannaong.github.io/gangnam-style/
 
 ## Project Overview
 
